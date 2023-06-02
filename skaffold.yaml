@@ -1,0 +1,7 @@
+piVersion: skaffold/v2beta16
+kind: Config
+deploy:
+    helm:
+          releases:
+                - name: nginx-release
+                        chartPath: ./helmcharts
