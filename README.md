@@ -1,1 +1,1 @@
-# deploy_parameters
+Manifests for testing deploy parameters feature
