@@ -1,0 +1,46 @@
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+  name: multi-target
+multiTarget:
+  targetIds: [child-target1, child-target2]
+deployParameters:
+  image: "gcr.io/google-containers/nginx:1.7.9"
+
+---
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+  name: child-target1
+  labels:
+    label1: label1
+gke:
+  cluster: projects/test-linjingsde/locations/us-central1/clusters/test-cluster1
+---
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+  name: child-target2
+  labels:
+    label2: label2
+gke:
+  cluster: projects/test-linjingsde/locations/us-east1/clusters/test-cluster2
+---
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: DeliveryPipeline
+metadata:
+  name: deploy-parameters-pipeline
+serialPipeline:
+  stages:
+  - targetId: multi-target
+    deployParameters:
+    - values:
+        replicaCount: "1"
+        key1: value1
+      matchTargetLabels:
+        label1: label1
+    - values:
+        replicaCount: "2"
+        key2: value2
+      matchTargetLabels:
+        label2: label2
