@@ -1,32 +1,32 @@
-piVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: nginx-deploy-parameters-deployment
-        labels:
-              app: nginx-app
-                  namespace: default
-                  spec:
-                      replicas: {{.Values.replicaCount}}
-                          selector:
-                                matchLabels:
-                                        app: nginx-app
-                                            template:
-                                                  metadata:
-                                                          labels:
-                                                                    app: nginx-app
-                                                                          spec:
-                                                                                  containers:
-                                                                                          - name: nginx
-                                                                                                    image: {{.Values.image}}
-                                                                                          ---
-                                                                                  apiVersion: v1
-                                                                                  kind: Service
-                                                                                  metadata:
-                                                                                      name: nginx-deploy-parameters-service
-                                                                                          namespace: default
-                                                                                          spec:
-                                                                                              selector:
-                                                                                                    app: nginx-app
-                                                                                                        ports:
-                                                                                                            - protocol: TCP
-                                                                                                                  port: {{.Values.port}}
+  name: nginx-deploy-parameters-deployment
+  labels:
+    app: nginx-app
+  namespace: default
+spec:
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: nginx-app
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - name: nginx
+        image: {{.Values.image}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-deploy-parameters-service
+  namespace: default
+spec:
+  selector:
+    app: nginx-app
+  ports:
+  - protocol: TCP
+    port: {{.Values.port}}
