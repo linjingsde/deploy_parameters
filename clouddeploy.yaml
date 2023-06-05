@@ -36,11 +36,9 @@ serialPipeline:
     deployParameters:
     - values:
         replicaCount: "1"
-        key1: value1
       matchTargetLabels:
         label1: label1
     - values:
         replicaCount: "2"
-        key2: value2
       matchTargetLabels:
         label2: label2
